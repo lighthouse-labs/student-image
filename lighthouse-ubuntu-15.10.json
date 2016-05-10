@@ -1,0 +1,79 @@
+{
+  "builders": [{
+    "type": "virtualbox-iso",
+    "guest_os_type": "Ubuntu_64",
+    "boot_wait": "5s",
+    "boot_command": [
+     "<enter><wait>",
+     "<f6><esc>",
+     "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+     "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+     "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+     "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+     "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+     "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+     "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+     "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+     "<bs><bs><bs>",
+     "/install/vmlinuz ",
+     "initrd=/install/initrd.gz ",
+     "net.ifnames=0 ",
+     "auto-install/enable=true ",
+     "debconf/priority=critical ",
+     "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu-15.10/preseed.cfg ",
+     "<enter>"
+    ],
+    "iso_url": "http://releases.ubuntu.com/15.10/ubuntu-15.10-server-amd64.iso",
+    "iso_checksum": "fb4eef05edcabfc5cccd4cb44f3f9b48",
+    "iso_checksum_type": "md5",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "ssh_wait_timeout": "20m",
+    "disk_size": "{{user `disk_size`}}",
+    "headless": "{{user `headless`}}",
+    "shutdown_command": "sudo systemctl poweroff",
+    "http_directory": "http",
+    "vboxmanage": [
+      ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+      ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+    ]
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+          "scripts": [
+            "scripts/apt.sh",
+            "scripts/virtualbox.sh",
+            "scripts/vagrant.sh",
+            "scripts/sshd.sh",
+            "scripts/cleanup.sh",
+            "scripts/minimize.sh"
+          ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "wget https://bootstrap.saltstack.com/develop -O install_salt.sh",
+        "sudo sh install_salt.sh -P git develop"
+      ]
+    },
+    {
+    "type": "salt-masterless",
+    "local_state_tree": "salt",
+    "no_exit_on_failure": true,
+    "skip_bootstrap": true
+  }],
+  "post-processors": [{
+    "type": "vagrant",
+    "compression_level": "{{user `compression_level`}}",
+    "output": "lighthouse-ubuntu-15.10-amd64.box"
+  }],
+  "variables": {
+    "compression_level": "6",
+    "cpus": "1",
+    "disk_size": "40000",
+    "headless": "true",
+    "memory": "512",
+    "mirror": "http://releases.ubuntu.com"
+  }
+}
