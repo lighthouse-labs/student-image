@@ -1,30 +1,27 @@
-Mostly stolen from https://github.com/kaorimatz/packer-templates
+# Student image
 
-fzero's scripts to be integrated: https://github.com/lighthouse-labs/setup-scripts
+A automatically built Vagrant/VirtualBox image for students to take the Lighthouse Labs
+Web Fundamentals and Web Immersive program.
 
-gems pre-installed
-- rails
-- rspec
-- nokogiri
-- sinatra
-- kominari
-- pry-byebug
+## Dependencies
 
-bash profiles
+- VirtualBox
+- Vagrant
+- packer
 
-## Local install
+## Local setup with salt
 
 TODO - How to run checkout and run salt on a fresh ubuntu install to do the setup without vagrant/vm.
 
-## Head vs Headless
+## Desktop
 
-TODO
+A desktop image can be built with `make build-desktop`
 
 ## Packages
 
 Packages installed are indicated in the pillar/packages.sls
 
-Add new packages as required to the yaml list.
+Add new packages as required to the YAML list.
 
 ## Gems
 
@@ -34,16 +31,20 @@ Required globally installed gems in the pillar/gems.sls
 
 Required globally installed npms in the pillar/npms.sls
 
-# local testing
+# Local Testing
 
-- `packer build lighthouse-ubuntu-15.10.json`
-- `vagrant up`
-- `vagrant ssh`
-- `vagrant destroy`
-- `vagrant box remove lighthouse-ubuntu-15.10-amd64.box`
+- Build the image `make build`
+- Start and run `vagrant up && vagrant ssh`
+- Destroy our instance `vagrant destroy`
+- Clean up image (otherwise cached in vagrant/vbox)`make clean`
 
 # manually testing the salt in the vm
 
 `salt-call --local state.highstate`
 
-- .git_prompt missing
+
+### Credits
+
+Mostly stolen from https://github.com/kaorimatz/packer-templates
+But also stolen from https://github.com/boxcutter/ubuntu
+Updates/inspiration from fzero's scripts https://github.com/lighthouse-labs/setup-scripts

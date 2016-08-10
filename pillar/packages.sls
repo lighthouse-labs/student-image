@@ -28,7 +28,6 @@ packages:
   - libssl-dev
   - zlib1g
   - zlib1g-dev
-  - libssl-dev
   - libyaml-dev
   - libxml2-dev
   - libxslt1-dev
