@@ -1,5 +1,3 @@
-vim:
-  pkg.installed
 
-postgresql:
-  pkg.installed
+# postgresql:
+#   pkg.installed

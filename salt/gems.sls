@@ -1,49 +1,17 @@
+# Configure gem to not make docs by default
 gemrc:
   file.managed:
     - name: "/home/vagrant/.gemrc"
-    - user: vagrant
-    - group: vagrant
+    - user: {{ pillar['user'] }}
+    - group: {{ pillar['group'] }}
     - chmod: 664
     - contents: "gem: --no-rdoc --no-ri"
 
-rails:
+{% for gem in pillar.get('gems', []) %}
+{{gem}}:
   gem.installed:
-    - user: vagrant
+    - user: {{ pillar['user'] }}
     - require:
       - cmd: ruby
       - file: gemrc
-
-rspec:
-  gem.installed:
-    - user: vagrant
-    - require:
-      - cmd: ruby
-      - file: gemrc
-
-nokogiri:
-  gem.installed:
-    - user: vagrant
-    - require:
-      - cmd: ruby
-      - file: gemrc
-
-sinatra:
-  gem.installed:
-    - user: vagrant
-    - require:
-      - cmd: ruby
-      - file: gemrc
-
-kaminari:
-  gem.installed:
-    - user: vagrant
-    - require:
-      - cmd: ruby
-      - file: gemrc
-
-pry-byebug:
-  gem.installed:
-    - user: vagrant
-    - require:
-      - cmd: ruby
-      - file: gemrc
+{% endfor %}

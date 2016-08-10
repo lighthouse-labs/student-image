@@ -42,7 +42,7 @@ rvm:
   cmd:
     - run
     - name: curl -sSL https://rvm.io/mpapis.asc | gpg --import - && curl -L get.rvm.io | bash -s stable
-    - user: vagrant
+    - user: {{ pillar['user'] }}
     - unless: test -s "$HOME/.rvm/scripts/rvm"
     - require:
       - pkg: rvm-deps
@@ -51,7 +51,7 @@ rvm_bashrc:
   cmd:
     - run
     - name: echo "[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm" >> $HOME/.bashrc
-    - user: vagrant
+    - user: {{ pillar['user'] }}
     - unless: grep ".rvm/scripts/rvm" ~/.bashrc
     - require:
       - cmd: rvm
@@ -60,7 +60,7 @@ ruby:
   cmd:
     - run
     - name: rvm install 2.3.0 && rvm alias create default 2.3.0
-    - user: vagrant
+    - user: {{ pillar['user'] }}
     - unless: test -d $HOME/.rvm/rubies/2.3.0
     - require:
       - cmd: rvm_bashrc

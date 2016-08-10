@@ -1,4 +1,4 @@
-/home/vagrant/.bashrc:
+/home/{{ pillar['user'] }}/.bashrc:
   file:
     - prepend
     - template: jinja
@@ -6,27 +6,29 @@
       - salt://shell/dot_bashrc.template
 
 # Place users in /vagrant by default
-/home/vagrant/.profile:
+{% if pillar['user'] == 'vagrant' %}
+/home/{{ pillar['user'] }}/.profile:
   file.append:
     - text: cd /vagrant
+{% endif %}
 
-/home/vagrant/.git-prompt.sh:
+/home/{{ pillar['user'] }}/.git-prompt.sh:
   file.managed:
     - source: salt://shell/dot_git-prompt.sh.template
-    - user: vagrant
-    - group: vagrant
+    - user: {{ pillar['user'] }}
+    - group: {{ pillar['user'] }}
     - mode: 644
 
-/home/vagrant/.gitconfig:
+/home/{{ pillar['user'] }}/.gitconfig:
   file.managed:
     - source: salt://shell/dot_gitconfig.template
-    - user: vagrant
-    - group: vagrant
+    - user: {{ pillar['user'] }}
+    - group: {{ pillar['user'] }}
     - mode: 644
 
-/home/vagrant/.git_prompt:
+/home/{{ pillar['user'] }}/.git_prompt:
   file.managed:
     - source: salt://shell/dot_gitprompt.template
-    - user: vagrant
-    - group: vagrant
+    - user: {{ pillar['user'] }}
+    - group: {{ pillar['user'] }}
     - mode: 644

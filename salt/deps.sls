@@ -1,14 +1,7 @@
-curl:
-  pkg.installed:
-    - pkgs:
-      - curl
 
-git:
+{% for pkg in pillar.get('packages', []) %}
+{{ pkg }}:
   pkg.installed:
     - pkgs:
-      - git-core
-
-build-essential:
-  pkg.installed:
-    - pkgs:
-      - build-essential
+      - {{ pkg }}
+{% endfor %}
