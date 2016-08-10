@@ -41,11 +41,11 @@ mri-deps:
 rvm:
   cmd:
     - run
-    - name: curl -L get.rvm.io | bash -s stable
+    - name: curl -sSL https://rvm.io/mpapis.asc | gpg --import - && curl -L get.rvm.io | bash -s stable
     - user: vagrant
     - unless: test -s "$HOME/.rvm/scripts/rvm"
     - require:
-      - pkg: curl
+      - pkg: rvm-deps
 
 rvm_bashrc:
   cmd:
@@ -59,19 +59,8 @@ rvm_bashrc:
 ruby:
   cmd:
     - run
-    - name: rvm install 2.1.3 && rvm alias create default 2.1.3
+    - name: rvm install 2.3.0 && rvm alias create default 2.3.0
     - user: vagrant
-    - unless: test -d $HOME/.rvm/rubies/2.1.3
+    - unless: test -d $HOME/.rvm/rubies/2.3.0
     - require:
       - cmd: rvm_bashrc
-
-# rvm-key:
-#   gpg.receive_key:
-#     - keys: '409B6B1796C275462A1703113804BB82D39DC0E3'
-#     - user: vagrant
-#     - require:
-#       - pkg: python-gnupg
-
-# gemset:
-#   rvm.gemset_present:
-#     - ruby: ruby-2.1.3

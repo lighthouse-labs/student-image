@@ -1,9 +1,14 @@
 /home/vagrant/.bashrc:
-  file.managed:
-    - source: salt://shell/dot_bashrc.template
-    - user: vagrant
-    - group: vagrant
-    - mode: 644
+  file:
+    - prepend
+    - template: jinja
+    - sources:
+      - salt://shell/dot_bashrc.template
+
+# Place users in /vagrant by default
+/home/vagrant/.profile:
+  file.append:
+    - text: cd /vagrant
 
 /home/vagrant/.git-prompt.sh:
   file.managed:
