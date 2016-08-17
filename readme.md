@@ -33,7 +33,7 @@ Required globally installed npms in the pillar/npms.sls
 
 # Local Testing
 
-- Build the image `make build`
+- Build the image `make build vagrantfile`
 - Start and run `vagrant up && vagrant ssh`
 - Destroy our instance `vagrant destroy`
 - Clean up image (otherwise cached in vagrant/vbox)`make clean`
