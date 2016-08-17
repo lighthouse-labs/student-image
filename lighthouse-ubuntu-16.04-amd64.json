@@ -45,7 +45,7 @@
     "iso_url": "{{user `mirror`}}/16.04/ubuntu-16.04-server-amd64.iso",
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "output_directory": "output-ubuntu-16.04-amd64-{{build_type}}",
+    "output_directory": "output-{{build_type}}",
     "vm_name": "packer-ubuntu-16.04-amd64",
     "disk_size": "{{user `disk_size`}}",
     "headless": "{{user `headless`}}",

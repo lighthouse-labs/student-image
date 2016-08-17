@@ -20,7 +20,8 @@ build-docker:
 clean:
 	rm $(BOX_FILE) || /usr/bin/true
 	@vagrant box remove $(BOX_FILE) || /usr/bin/true
-	rm Vagrantfile
+	@rm Vagrantfile || /usr/bin/true
+	@rm -rf output-virtualbox-iso
 
 up:
 	vagrant box add $(BOX_NAME) ./$(BOX_FILE)
@@ -30,6 +31,6 @@ vagrantfile: Vagrantfile.template
 
 upload: vagrantfile
 	s3cmd put -P $(BOX_FILE) $(S3_BUCKET_PATH)/$(S3_BOX_NAME)
-	s3cmd put -P Vagrant $(S3_BUCKET_PATH)/Vagrant
+	s3cmd put -P Vagrantfilre $(S3_BUCKET_PATH)/Vagrantfilre
 
 reset: clean build
