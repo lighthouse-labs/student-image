@@ -14,7 +14,9 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "BOX_FILE"
+  config.vm.box = "BOX_NAME"
+  config.vm.box_download_checksum = "BOX_CHECKSUM"
+  config.vm.box_download_checksum_type = "sha256"
   config.vm.box_url = "http://d10ofk0qhbh8u9.cloudfront.net/BOX_PATH/BOX_FILE"
 
   # Disable automatic box update checking. If you disable this, then

@@ -40,7 +40,7 @@ Required globally installed npms in the pillar/npms.sls
 
 # manually testing the salt in the vm
 
-`salt-call --local state.highstate`
+`sudo salt-call --local --file-root=/vagrant/salt --pillar-root=/vagrant/pillar state.highstate`
 
 
 ### Credits

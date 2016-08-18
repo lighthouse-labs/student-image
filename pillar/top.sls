@@ -4,3 +4,4 @@ base:
     - packages
     - user
     - versions
+    - build

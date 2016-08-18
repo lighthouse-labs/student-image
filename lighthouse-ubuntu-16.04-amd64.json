@@ -5,7 +5,7 @@
     "iso_url": "{{user `mirror`}}/16.04/ubuntu-16.04-server-amd64.iso",
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "output_directory": "output-ubuntu-16.04-amd64-{{build_type}}",
+    "output_directory": "output-{{build_type}}",
     "vm_name": "packer-ubuntu-16.04-amd64",
     "disk_size": "{{user `disk_size`}}",
     "headless": "{{user `headless`}}",
@@ -90,9 +90,7 @@
       "scripts/virtualbox.sh",
       "scripts/vagrant.sh",
       "scripts/sshd.sh",
-      "scripts/salt.sh",
-      "scripts/cleanup.sh",
-      "scripts/minimize.sh"
+      "scripts/salt.sh"
     ]
   },
   {
@@ -101,11 +99,17 @@
     "local_pillar_roots": "pillar",
     "no_exit_on_failure": false,
     "skip_bootstrap": true
+  },{
+    "type": "shell",
+    "scripts": [
+      "scripts/cleanup.sh",
+      "scripts/minimize.sh"
+    ]
   }],
   "post-processors": [{
     "type": "vagrant",
     "compression_level": "{{user `compression_level`}}",
-    "output": "ubuntu-16.04-amd64-{{.Provider}}.box",
+    "output": "ubuntu-16.04-amd64.box",
     "keep_input_artifact": true
   }],
   "variables": {
