@@ -5,3 +5,4 @@ gems:
   - sinatra
   - kaminari
   - pry-byebug
+  - bundler

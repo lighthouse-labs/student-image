@@ -9,6 +9,13 @@ Web Fundamentals and Web Immersive program.
 - Vagrant
 - packer
 
+## Features
+
+- Ports forwarded: 3000, 3001, 8080, 5001
+- NVM with NodeJS installed
+- RVM with ruby installed
+- Postgres and MongoDB installed
+
 ## Local setup with salt
 
 TODO - How to run checkout and run salt on a fresh ubuntu install to do the setup without vagrant/vm.
