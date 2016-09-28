@@ -1,6 +1,6 @@
 base:
   '*':
-    - data
+    - npm
     - packages
     - user
     - versions

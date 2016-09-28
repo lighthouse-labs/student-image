@@ -5,3 +5,4 @@ Vagrantfile
 output*/
 
 pillar/build.sls
+artifacts
