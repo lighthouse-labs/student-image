@@ -3,3 +3,5 @@
 packer_cache
 Vagrantfile
 output*/
+
+pillar/build.sls

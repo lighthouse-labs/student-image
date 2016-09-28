@@ -11,10 +11,14 @@ S3_PATH=vagrant/$(BOX_VERSION)
 S3_BUCKET_PATH=$(S3_BUCKET)/$(S3_PATH)
 S3_BOX_NAME=$(BOX_NAME).box
 
-build:
+pillar: ./pillar/build.sls
+	echo "build_date: ${DATE_STAMP}" > ./pillar/build.sls
+	echo "build_hash: ${GIT_SHORT}" >> ./pillar/build.sls
+
+build: pillar
 	packer build -only=virtualbox-iso $(PACKER_FILE)
 
-build-docker:
+build-docker: pillar
 	packer build -only=docker $(PACKER_FILE)
 
 clean:
