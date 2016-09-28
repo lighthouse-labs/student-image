@@ -13,7 +13,7 @@ packages:
   - postgresql-contrib
   - postgresql-client
   - postgresql-server-dev-all
-  - mongodb
+#  - mongodb-org installed in mongodb.sls
   - redis-server
   - redis-tools
   - sqlite3
