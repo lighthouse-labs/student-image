@@ -1,4 +1,4 @@
-.PHONEY: reset clean up upload vagrantfile
+.PHONY: reset up upload vagrantfile artifacts
 
 DATE_STAMP=$(shell date +%Y%m%d-%H%M%S)
 GIT_SHORT=$(shell git rev-parse --short HEAD)
