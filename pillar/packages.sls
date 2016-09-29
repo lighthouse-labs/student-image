@@ -37,3 +37,4 @@ packages:
   - automake
   - libtool
   - bison
+  - man-db

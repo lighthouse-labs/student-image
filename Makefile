@@ -31,7 +31,6 @@ build-docker: pillar artifacts
 clean:
 	rm $(BOX_FILE) || /usr/bin/true
 	@vagrant box remove $(BOX_NAME) || /usr/bin/true
-	@rm Vagrantfile || /usr/bin/true
 	@rm -rf output-virtualbox-iso
 	@rm -rf ${ARTIFACTS_PATH}
 

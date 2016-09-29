@@ -24,3 +24,9 @@ mongodb-org:
     - source: salt://services/mongod.service
     - require:
       - pkg: mongodb-org
+
+mongod.service:
+  service.running:
+    - enable: True
+    - require:
+      - file: /lib/systemd/system/mongod.service

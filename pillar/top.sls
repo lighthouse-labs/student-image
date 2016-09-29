@@ -1,5 +1,6 @@
 base:
   '*':
+    - gems
     - npm
     - packages
     - user
