@@ -38,3 +38,4 @@ packages:
   - libtool
   - bison
   - man-db
+  - dnsutils
