@@ -1,12 +1,27 @@
-  pg_user:
-    postgres_user.present:
-      - name: {{ pillar['user'] }}
-      - superuser: true
-  pg_database:
-    postgres_database.present:
-      - name: {{ pillar['user'] }}
-      - db_user: {{ pillar['user'] }}
-      - user: {{ pillar['user'] }}
-      - require:
-        - postgres_user: pg_user
+pg_user:
+  postgres_user.present:
+    - name: {{ pillar['user'] }}
+    - superuser: true
+
+pg_user_development:
+  postgres_user.present:
+    - name: development
+    - superuser: true
+    - password: development
+
+pg_database:
+  postgres_database.present:
+    - name: {{ pillar['user'] }}
+    - db_user: {{ pillar['user'] }}
+    - user: {{ pillar['user'] }}
+    - require:
+      - postgres_user: pg_user
+
+/etc/postgresql/9.5/main/pg_hba.conf:
+  file.managed:
+    - user: postgres
+    - group: postgres
+    - mode: 640
+    - template: jinja
+    - source: salt://postgresql/pg_hba.conf
   
