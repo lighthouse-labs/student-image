@@ -1,4 +1,4 @@
-.PHONY: reset up upload vagrantfile artifacts
+.PHONY: reset up upload vagrantfile artifacts pillar run
 
 DATE_STAMP=$(shell date +%Y%m%d-%H%M%S)
 GIT_SHORT=$(shell git rev-parse --short HEAD)
@@ -37,13 +37,17 @@ clean:
 install:
 	vagrant box add --name $(BOX_NAME) $(BOX_FILE)
 
+run: vagrantfile install
+	vagrant up
+	vagrant ssh
+
 vagrantfile: Vagrantfile.template
 	cat Vagrantfile.template | sed 's/BOX_NAME/$(subst /,\/,$(BOX_NAME))/g' | sed 's/BOX_CHECKSUM/$(shell shasum -a 256 $(BOX_FILE)| cut -c -64)/g' | sed 's/BOX_PATH/$(subst /,\/,$(S3_PATH))/g' | sed  's/BOX_FILE/$(S3_BOX_NAME)/g' > ${ARTIFACTS_PATH}/Vagrantfile
 
 upload: vagrantfile
 	s3cmd put -P $(BOX_FILE) $(S3_BUCKET_PATH)/$(S3_BOX_NAME)
 	s3cmd put -P ${ARTIFACTS_PATH}/Vagrantfile $(S3_BUCKET_PATH)/Vagrantfile
-	s3cmd put -P ${ARTIFACTS_PATH}/Vagrantfile $(S3_ARTIFACT_BUCKET_PATH)/Vagrantfile
-	s3cmd put -P ${ARTIFACTS_PATH}/latest $(S3_ARTIFACT_BUCKET_PATH)/latest
+	s3cmd put -Pf ${ARTIFACTS_PATH}/Vagrantfile $(S3_ARTIFACT_BUCKET_PATH)/Vagrantfile
+	s3cmd put -Pf ${ARTIFACTS_PATH}/latest $(S3_ARTIFACT_BUCKET_PATH)/latest
 
 reset: clean build
