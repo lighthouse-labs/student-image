@@ -19,7 +19,9 @@ pillar: ./pillar/build.sls
 	echo "build_hash: ${GIT_SHORT}" >> ./pillar/build.sls
 
 artifacts:
-	@mkdir "${ARTIFACTS_PATH}"
+	install -d "${ARTIFACTS_PATH}"
+	echo "${DATE_STAMP}" >  ${ARTIFACTS_PATH}/date
+	echo "${GIT_SHORT}" >  ${ARTIFACTS_PATH}/git_short
 	echo "${DATE_STAMP}-${GIT_SHORT}" > ${ARTIFACTS_PATH}/latest
 
 build: pillar artifacts
