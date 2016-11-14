@@ -19,6 +19,7 @@ packages:
   - sqlite3
   - libsqlite3-dev
   - imagemagick
+  - libmagickwand-dev
   - coreutils
   - gzip
   - bzip2
