@@ -22,7 +22,7 @@ TODO - How to run checkout and run salt on a fresh ubuntu install to do the setu
 
 ## Desktop
 
-A desktop image can be built with `make build-desktop`
+A desktop image can be built with `make build-desktop` _beta_
 
 ## Packages
 
@@ -40,8 +40,9 @@ Required globally installed npms in the pillar/npms.sls
 
 # Local Testing
 
-- Build the image `make build vagrantfile`
-- Start and run `vagrant up && vagrant ssh`
+- If you already have a vagrant box of the same name installed: `make clean`. You may need to shutdown running vagrants using the same image name
+- Build the image `make build`
+- Start and run `make run`
 - Destroy our instance `vagrant destroy`
 - Clean up image (otherwise cached in vagrant/vbox)`make clean`
 
