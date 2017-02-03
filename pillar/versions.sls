@@ -1,3 +1,3 @@
 versions:
-  ruby: 2.3.0
-  node: 6.3.1
+  ruby: 2.3.3
+  node: 6.9.5
