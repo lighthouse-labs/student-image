@@ -59,8 +59,8 @@ rvm_bashrc:
 ruby:
   cmd:
     - run
-    - name: rvm install 2.3.0 && rvm alias create default 2.3.0
+    - name: rvm install {{ pillar['versions']['ruby'] }} && rvm alias create default {{ pillar['versions']['ruby'] }}
     - user: {{ pillar['user'] }}
-    - unless: test -d $HOME/.rvm/rubies/2.3.0
+    - unless: test -d $HOME/.rvm/rubies/{{ pillar['versions']['ruby'] }}
     - require:
       - cmd: rvm_bashrc

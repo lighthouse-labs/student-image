@@ -23,8 +23,8 @@ node:
     - run
     - user: {{ pillar['user'] }}
     - shell: /bin/bash
-    - unless: test -s "$HOME/.nvm/versions/node/v6.3.1"
-    - name: source $HOME/.nvm/nvm.sh && nvm install v6.3.1 && nvm alias default v6.3.1
+    - unless: test -s "$HOME/.nvm/versions/node/v{{ pillar['versions']['node'] }}"
+    - name: source $HOME/.nvm/nvm.sh && nvm install v{{ pillar['versions']['node'] }} && nvm alias default v{{ pillar['versions']['node'] }}
     - require:
       - cmd: nvm
       - cmd: nvm-source
