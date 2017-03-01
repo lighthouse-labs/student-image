@@ -17,6 +17,14 @@ pg_database:
     - require:
       - postgres_user: pg_user
 
+pg_database_development:
+  postgres_database.present:
+    - name: development
+    - db_user: development
+    - user: development
+    - require:
+      - postgres_user: pg_user_development
+
 /etc/postgresql/9.5/main/pg_hba.conf:
   file.managed:
     - user: postgres
