@@ -21,7 +21,8 @@ pg_database_development:
   postgres_database.present:
     - name: development
     - db_user: development
-    - user: development
+    - db_password: development
+    - user: {{ pillar['user'] }}
     - require:
       - postgres_user: pg_user_development
 
