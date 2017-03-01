@@ -2,12 +2,16 @@ pg_user:
   postgres_user.present:
     - name: {{ pillar['user'] }}
     - superuser: true
+    - require:
+      - file: /etc/postgresql/9.5/main/pg_hba.conf
 
 pg_user_development:
   postgres_user.present:
     - name: development
     - superuser: true
     - password: development
+    - require:
+      - file: /etc/postgresql/9.5/main/pg_hba.conf
 
 pg_database:
   postgres_database.present:
@@ -16,15 +20,16 @@ pg_database:
     - user: {{ pillar['user'] }}
     - require:
       - postgres_user: pg_user
+      - pkg: postgresql-server-dev-all
 
 pg_database_development:
   postgres_database.present:
     - name: development
-    - db_user: development
-    - db_password: development
+    - owner: development
     - user: {{ pillar['user'] }}
     - require:
       - postgres_user: pg_user_development
+      - pkg: postgresql-server-dev-all
 
 /etc/postgresql/9.5/main/pg_hba.conf:
   file.managed:
@@ -33,6 +38,8 @@ pg_database_development:
     - mode: 640
     - template: jinja
     - source: salt://postgresql/pg_hba.conf
+    - require:
+      - pkg: postgresql-server-dev-all
 
 /etc/postgresql/9.5/main/postgresql.conf:
   file.managed:
@@ -41,3 +48,16 @@ pg_database_development:
     - mode: 640
     - template: jinja
     - source: salt://postgresql/postgresql.conf
+    - require:
+      - pkg: postgresql-server-dev-all
+
+postgresql-service:
+  service.running:
+    - name: postgresql
+    - enable: True
+    - reload: True
+    - watch:
+      - file: /etc/postgresql/9.5/main/postgresql.conf
+      - file: /etc/postgresql/9.5/main/pg_hba.conf
+    - require:
+      - pkg: postgresql-server-dev-all
