@@ -24,4 +24,11 @@ pg_database:
     - mode: 640
     - template: jinja
     - source: salt://postgresql/pg_hba.conf
-  
+
+/etc/postgresql/9.5/main/postgresql.conf:
+  file.managed:
+    - user: postgres
+    - group: postgres
+    - mode: 640
+    - template: jinja
+    - source: salt://postgresql/postgresql.conf
