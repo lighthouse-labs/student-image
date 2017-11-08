@@ -1,3 +1,3 @@
 versions:
   ruby: 2.3.5
-  node: 6.11.4
+  node: 8.9.1
