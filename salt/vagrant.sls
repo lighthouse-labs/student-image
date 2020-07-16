@@ -5,4 +5,8 @@ vagrant:
       - vagrant
   user.present:
     - gid: vagrant
+postgres:
+  group.present:
+    - addusers:
+      - vagrant
 {% endif %}

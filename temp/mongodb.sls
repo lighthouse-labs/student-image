@@ -1,4 +1,4 @@
-
+# Goes in salt/
 
 # Official Mongodb Community Edition Repo
 mongodb-repo:

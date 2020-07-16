@@ -3,7 +3,7 @@ pg_user:
     - name: {{ pillar['user'] }}
     - superuser: true
     - require:
-      - file: /etc/postgresql/9.5/main/pg_hba.conf
+      - file: /etc/postgresql/10/main/pg_hba.conf
 
 pg_user_development:
   postgres_user.present:
@@ -11,7 +11,7 @@ pg_user_development:
     - superuser: true
     - password: development
     - require:
-      - file: /etc/postgresql/9.5/main/pg_hba.conf
+      - file: /etc/postgresql/10/main/pg_hba.conf
 
 pg_database:
   postgres_database.present:
@@ -20,7 +20,7 @@ pg_database:
     - user: {{ pillar['user'] }}
     - require:
       - postgres_user: pg_user
-      - pkg: postgresql-server-dev-all
+      - pkg: postgresql
 
 pg_database_development:
   postgres_database.present:
@@ -29,9 +29,9 @@ pg_database_development:
     - user: {{ pillar['user'] }}
     - require:
       - postgres_user: pg_user_development
-      - pkg: postgresql-server-dev-all
+      - pkg: postgresql
 
-/etc/postgresql/9.5/main/pg_hba.conf:
+/etc/postgresql/10/main/pg_hba.conf:
   file.managed:
     - user: postgres
     - group: postgres
@@ -39,9 +39,9 @@ pg_database_development:
     - template: jinja
     - source: salt://postgresql/pg_hba.conf
     - require:
-      - pkg: postgresql-server-dev-all
+      - pkg: postgresql
 
-/etc/postgresql/9.5/main/postgresql.conf:
+/etc/postgresql/10/main/postgresql.conf:
   file.managed:
     - user: postgres
     - group: postgres
@@ -49,7 +49,7 @@ pg_database_development:
     - template: jinja
     - source: salt://postgresql/postgresql.conf
     - require:
-      - pkg: postgresql-server-dev-all
+      - pkg: postgresql
 
 postgresql-service:
   service.running:
@@ -57,7 +57,7 @@ postgresql-service:
     - enable: True
     - reload: True
     - watch:
-      - file: /etc/postgresql/9.5/main/postgresql.conf
-      - file: /etc/postgresql/9.5/main/pg_hba.conf
+      - file: /etc/postgresql/10/main/postgresql.conf
+      - file: /etc/postgresql/10/main/pg_hba.conf
     - require:
-      - pkg: postgresql-server-dev-all
+      - pkg: postgresql

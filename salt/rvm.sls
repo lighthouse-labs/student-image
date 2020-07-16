@@ -5,6 +5,7 @@ rvm-deps:
       - coreutils
       - gzip
       - bzip2
+      - gnupg2
       - gawk
       - sed
       - curl
@@ -17,8 +18,8 @@ mri-deps:
     - pkgs:
       - build-essential
       - openssl
-      - libreadline6
-      - libreadline6-dev
+      - libreadline7
+      - libreadline-dev
       - curl
       - git-core
       - zlib1g
@@ -41,7 +42,7 @@ mri-deps:
 rvm:
   cmd:
     - run
-    - name: curl -sSL https://rvm.io/mpapis.asc | gpg --import - && curl -L get.rvm.io | bash -s stable
+    - name: curl -sSL https://rvm.io/mpapis.asc | gpg2 --import - && curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import - && curl -L get.rvm.io | bash -s stable
     - user: {{ pillar['user'] }}
     - unless: test -s "$HOME/.rvm/scripts/rvm"
     - require:
@@ -64,3 +65,11 @@ ruby:
     - unless: test -d $HOME/.rvm/rubies/{{ pillar['versions']['ruby'] }}
     - require:
       - cmd: rvm_bashrc
+
+rubygem_fix:
+  cmd:
+    - run
+    - name: rvm install rubygems 2.7.10 --force
+    - user: {{ pillar['user'] }}
+    - require:
+      - cmd: ruby

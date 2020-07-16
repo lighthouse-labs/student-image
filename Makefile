@@ -3,9 +3,9 @@
 ARTIFACTS_PATH=artifacts
 DATE_STAMP=$(shell cat ${ARTIFACTS_PATH}/date || date +%Y%m%d-%H%M%S)
 GIT_SHORT=$(shell cat ${ARTIFACTS_PATH}/git_short || git rev-parse --short HEAD)
-PACKER_FILE=lighthouse-ubuntu-16.04-amd64.json
+PACKER_FILE=lighthouse-ubuntu-18.04-amd64.json
 BOX_VERSION=$(DATE_STAMP)-$(GIT_SHORT)
-BOX_NAME=ubuntu-16.04-amd64-$(BOX_VERSION)
+BOX_NAME=ubuntu-18.04-amd64-$(BOX_VERSION)
 BOX_FILE=$(BOX_NAME).box
 S3_BUCKET=s3://lighthouse-labs-ca
 S3_ROOT_PATH=vagrant
@@ -33,7 +33,7 @@ build-pre: artifacts pillar
 
 build: build-pre
 	packer build -only=virtualbox-iso $(PACKER_FILE)
-	mv ${ARTIFACTS_PATH}/ubuntu-16.04-amd64.box ${ARTIFACTS_PATH}/${BOX_FILE}
+	mv ${ARTIFACTS_PATH}/ubuntu-18.04-amd64.box ${ARTIFACTS_PATH}/${BOX_FILE}
 
 build-docker: pillar
 	packer build -only=docker $(PACKER_FILE)

@@ -8,4 +8,4 @@ base:
     - bash
     - node
     - motd
-    - mongodb
+#    - mongodb

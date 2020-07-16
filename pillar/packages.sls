@@ -11,8 +11,6 @@ packages:
   - libreadline-dev
   - postgresql
   - postgresql-contrib
-  - postgresql-client
-  - postgresql-server-dev-all
 #  - mongodb-org installed in mongodb.sls
   - redis-server
   - redis-tools
@@ -27,6 +25,7 @@ packages:
   - sed
   - openssl
   - libssl-dev
+  - libpq-dev
   - zlib1g
   - zlib1g-dev
   - libyaml-dev
@@ -40,3 +39,4 @@ packages:
   - bison
   - man-db
   - dnsutils
+  - nano
