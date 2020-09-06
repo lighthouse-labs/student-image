@@ -62,7 +62,7 @@ vagrantfile: Vagrantfile.template
 upload: vagrantfile
 	s3cmd put -P ${ARTIFACTS_PATH}/$(BOX_FILE) $(S3_BUCKET_PATH)/$(S3_BOX_NAME)
 	s3cmd put -P ${ARTIFACTS_PATH}/Vagrantfile $(S3_BUCKET_PATH)/Vagrantfile
-	s3cmd put -Pf ${ARTIFACTS_PATH}/Vagrantfile $(S3_ARTIFACT_BUCKET_PATH)/Vagrantfile
-	s3cmd put -Pf ${ARTIFACTS_PATH}/latest $(S3_ARTIFACT_BUCKET_PATH)/latest
+	# s3cmd put -Pf ${ARTIFACTS_PATH}/Vagrantfile $(S3_ARTIFACT_BUCKET_PATH)/Vagrantfile
+	# s3cmd put -Pf ${ARTIFACTS_PATH}/latest $(S3_ARTIFACT_BUCKET_PATH)/latest
 
 reset: clean build
