@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cat <<'_EOF'
+           .-='-. _db_      .--==-,
+          (_  (  _IIII_   _(    )  `.
+            (    |" " |-.(  ` ,_  `  )
+             '-._HHHHHH  `)---' `'--'
+                 |.   |--`
+                 |    |      Lighthouse Labs
+       _H___,=====;___|      Built # {{ salt['pillar.get']('build_date', 'local') }}-{{ salt['pillar.get']('build_hash', 'DEV') }}
+    n_/____/____/``\__\
+   /__|:: :|. .|:::|::|      Direct complaints to /dev/null
+_%&|__&%_"_|_"_|_ H|__|__
+_EOF

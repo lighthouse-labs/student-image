@@ -1,0 +1,72 @@
+{
+  "variables": {
+    "cpus": "2",
+    "memory": "2048",
+    "disk_size": "40000",
+    "hostname": "vagrant",
+    "ssh_fullname": "vagrant",
+    "ssh_timeout": "60m",
+    "compression_level": "9",
+    "headless": "true",
+    "mirror": "https://releases.ubuntu.com",
+    "mirror_directory": "focal",
+    "iso_checksum_type": "sha256",
+    "iso_checksum": "5035be37a7e9abbdc09f0d257f3e33416c1a0fb322ba860d42d74aa75c3468d4",
+    "iso_name":"ubuntu-20.04.5-live-server-amd64.iso"
+  },
+  "builders": [
+    {
+      "boot_command": [
+          " <wait>",
+          " <wait>",
+          " <wait>",
+          " <wait>",
+          " <wait>",
+          "<esc><wait>",
+          "<f6><wait>",
+          "<esc><wait>",
+          "<bs><bs><bs><bs><wait>",
+          " autoinstall<wait5>",
+          " ds=nocloud-net<wait5>",
+          ";s=http://<wait5>{{.HTTPIP}}<wait5>:{{.HTTPPort}}/<wait5>",
+          " ---<wait5>",
+          "<enter><wait5>"
+      ],
+      "memory": "{{ user `memory` }}",
+      "cpus": "{{ user `cpus` }}",
+      "disk_size": "{{user `disk_size`}}",
+      "hard_drive_interface": "sata",
+      "headless": "{{ user `headless` }}",
+      "boot_wait": "5s",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_additions_url": "{{ user `guest_additions_url` }}",
+      "guest_os_type": "Ubuntu_64",
+      "http_directory": "{{user `http_directory`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
+      "output_directory": "output-{{build_type}}",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_timeout": "10000s",
+      "ssh_username": "vagrant",
+      "type": "virtualbox-iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `template` }}"
+  }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "./playbook.yml"
+    }
+  ],
+  "post-processors": [
+    {
+      "compression_level": "{{user `compression_level`}}",
+      "keep_input_artifact": true,
+      "output": "artifacts/ubuntu-20.04-amd64.box",
+      "type": "vagrant"
+    }
+  ]
+}

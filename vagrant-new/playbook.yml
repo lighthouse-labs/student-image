@@ -1,0 +1,126 @@
+---
+# playbook.yml
+- name: 'Provision Image'
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install base dependencies
+      apt:
+        pkg:
+          - curl
+          - build-essential
+          - git
+          - tig
+          - vim
+          - wget
+          - htop
+          - tmux
+          - screen
+          - libreadline-dev
+          - libc6-dev
+          - postgresql
+          - postgresql-contrib
+          - redis-server
+          - redis-tools
+          - sqlite3
+          - libsqlite3-dev
+          - imagemagick
+          - libmagickwand-dev
+          - coreutils
+          - gzip
+          - bzip2
+          - gawk
+          - sed
+          - openssl
+          - libssl-dev
+          - libpq-dev
+          - zlib1g
+          - zlib1g-dev
+          - libyaml-dev
+          - libxml2-dev
+          - libxslt1-dev
+          - autoconf
+          - libncurses5-dev
+          - automake
+          - libtool
+          - bison
+          - man-db
+          - dnsutils
+          - nano
+    
+
+
+    - name: Install NVM & Node 16.18
+      become: yes
+      become_flags: -i # Execute config files such as .profile (Ansible uses non-interactive login shells)
+      become_user: francis
+      block:
+        - name: Install nvm
+          shell: >
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.2/install.sh | bash
+          args:
+            executable: /bin/bash
+            chdir: "$HOME"
+            creates: "$HOME/.nvm/nvm.sh"
+
+        - name: Add info to profile
+          lineinfile:
+            path: ~/.profile
+            line: source ~/.nvm/nvm.sh
+            create: yes
+
+        - name: Install Node 16.18
+          shell: >
+            source $HOME/.nvm/nvm.sh && nvm install {{ item }}
+          args:
+            executable: /bin/bash
+            chdir: "$HOME"
+            creates: "$HOME/.nvm/versions/v{{ item }}"
+          loop:
+            - 16.18
+
+    - name: Install Rbenv & Ruby 3.1.1
+      become: yes
+      become_flags: -i # Execute config files such as .profile (Ansible uses non-interactive login shells)
+      become_user: francis
+      block:
+        - name: Install rbenv
+          shell: >
+            git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+          args:
+            executable: /bin/bash
+            chdir: "$HOME"
+            creates: "$HOME/.rbenv/bin/rbenv"
+
+        - name: Add info to profile
+          shell: >
+            echo 'eval "$(~/.rbenv/bin/rbenv init - bash)"' >> ~/.profile
+          args:  
+            executable: /bin/bash
+            chdir: "$HOME"
+
+        - name: Install ruby-build plugin
+          shell: >
+            git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+          args:
+            executable: /bin/bash
+            chdir: "$HOME"
+
+        - name: Install Ruby 3.1.1
+          shell: >
+            ~/.rbenv/bin/rbenv install {{ item }}
+          args:
+            executable: /bin/bash
+            chdir: "$HOME"
+          loop:
+            - 3.1.1
+
+        - name: Set Ruby 3.1.1 as global
+          shell: >
+            ~/.rbenv/bin/rbenv global {{ item }}
+          args:
+            executable: /bin/bash
+            chdir: "$HOME"
+          loop:
+            - 3.1.1

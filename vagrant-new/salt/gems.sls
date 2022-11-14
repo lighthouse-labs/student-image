@@ -19,7 +19,7 @@ gemrc:
 rails:
   gem.installed:
     - user: {{ pillar['user'] }}
-    - version: 4.1.16
+    - version: 6.1.5
     - require:
       - cmd: ruby
       - file: gemrc
@@ -48,7 +48,6 @@ sinatra:
 kaminari:
   gem.installed:
     - user: {{ pillar['user'] }}
-    - version: 1.1.1
     - require:
       - cmd: ruby
       - file: gemrc
@@ -56,7 +55,6 @@ kaminari:
 pry-byebug:
   gem.installed:
     - user: {{ pillar['user'] }}
-    - version: 3.6.0
     - require:
       - cmd: ruby
       - file: gemrc

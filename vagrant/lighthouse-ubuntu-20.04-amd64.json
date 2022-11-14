@@ -1,0 +1,99 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic",
+        " initrd=/install/initrd.gz",
+        " auto=true",
+        " priority=critical",
+        " hostname={{user `hostname`}}",
+        " passwd/user-fullname={{user `ssh_fullname`}}",
+        " passwd/username={{user `ssh_username`}}",
+        " passwd/user-password={{user `ssh_password`}}",
+        " passwd/user-password-again={{user `ssh_password`}}",
+        " preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `preseed`}}",
+        " -- <enter>"
+    ],
+      "boot_wait": "5s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_os_type": "Ubuntu_64",
+      "headless": "{{user `headless`}}",
+      "http_directory": "http/ubuntu-20.04",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{user `mirror`}}/ubuntu-20.04.1-legacy-server-amd64.iso",
+      "output_directory": "output-{{build_type}}",
+      "shutdown_command": "sudo systemctl poweroff",
+      "ssh_password": "vagrant",
+      "ssh_username": "vagrant",
+      "ssh_timeout": "{{user `ssh_timeout`}}",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `cpus`}}"
+        ]
+      ],
+      "vm_name": "packer-ubuntu-20.04-amd64"
+    },
+    {
+      "image": "ubuntu:20.04",
+      "type": "docker"
+    }
+  ],
+  "post-processors": [
+    {
+      "compression_level": "{{user `compression_level`}}",
+      "keep_input_artifact": true,
+      "output": "artifacts/ubuntu-20.04-amd64.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "scripts": [
+        "scripts/apt.sh",
+        "scripts/virtualbox.sh",
+        "scripts/vagrant.sh",
+        "scripts/sshd.sh",
+        "scripts/salt.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "local_pillar_roots": "pillar",
+      "local_state_tree": "salt",
+      "no_exit_on_failure": false,
+      "skip_bootstrap": true,
+      "type": "salt-masterless"
+    },
+    {
+      "scripts": [
+        "scripts/cleanup.sh",
+        "scripts/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "compression_level": "9",
+    "cpus": "2",
+    "disk_size": "40000",
+    "headless": "true",
+    "iso_checksum": "f11bda2f2caed8f420802b59f382c25160b114ccc665dbac9c5046e7fceaced2",
+    "iso_checksum_type": "sha256",
+    "memory": "1536",
+    "mirror": "http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release",
+    "ssh_timeout": "60m",
+    "ssh_fullname": "vagrant",
+    "hostname": "vagrant"
+  }
+}

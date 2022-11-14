@@ -9,9 +9,9 @@ packages:
   - tmux
   - screen
   - libreadline-dev
+  - libc6-dev
   - postgresql
   - postgresql-contrib
-#  - mongodb-org installed in mongodb.sls
   - redis-server
   - redis-tools
   - sqlite3
@@ -32,7 +32,6 @@ packages:
   - libxml2-dev
   - libxslt1-dev
   - autoconf
-  - libc6-dev
   - libncurses5-dev
   - automake
   - libtool

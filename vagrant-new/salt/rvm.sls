@@ -69,7 +69,7 @@ ruby:
 rubygem_fix:
   cmd:
     - run
-    - name: rvm install rubygems 2.7.10 --force
+    - name: rvm install rubygems 3.1.1 --force
     - user: {{ pillar['user'] }}
     - require:
       - cmd: ruby

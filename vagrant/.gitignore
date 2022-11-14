@@ -1,0 +1,8 @@
+.vagrant
+*.box
+packer_cache
+Vagrantfile
+output*/
+testing/
+pillar/build.sls
+artifacts
